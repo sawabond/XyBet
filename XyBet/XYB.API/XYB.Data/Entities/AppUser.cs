@@ -15,6 +15,10 @@ namespace XYB.Data.Entities
 
         public string PhotoUrl { get; set; }
 
+        public string RefferalCode { get; set; }
+
         public ICollection<AppUserRole> UserRoles { get; set; }
+
+        public ICollection<Bet> Bets { get; set; }
     }
 }
