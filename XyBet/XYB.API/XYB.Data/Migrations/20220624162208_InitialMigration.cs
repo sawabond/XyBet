@@ -187,6 +187,25 @@ namespace XYB.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Bets",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    BetSum = table.Column<double>(type: "float", nullable: false),
+                    Result = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Bets", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Bets_AspNetUsers_Id",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Payments",
                 columns: table => new
                 {
@@ -194,37 +213,17 @@ namespace XYB.Data.Migrations
                     Sum = table.Column<double>(type: "float", nullable: false),
                     Currency = table.Column<int>(type: "int", nullable: false),
                     InternalCurrencyEquivalent = table.Column<double>(type: "float", nullable: false),
-                    PaymentType = table.Column<int>(type: "int", nullable: false)
+                    PaymentType = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Payments", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Payments_AspNetUsers_Id",
-                        column: x => x.Id,
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Bets",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false),
-                    BetSum = table.Column<double>(type: "float", nullable: false),
-                    Result = table.Column<int>(type: "int", nullable: false),
-                    MatchId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Bets", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Bets_AspNetUsers_Id",
-                        column: x => x.Id,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -242,8 +241,7 @@ namespace XYB.Data.Migrations
                         name: "FK_GameMatches_Games_Id",
                         column: x => x.Id,
                         principalTable: "Games",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -262,8 +260,7 @@ namespace XYB.Data.Migrations
                         name: "FK_Teams_Games_Id",
                         column: x => x.Id,
                         principalTable: "Games",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -285,8 +282,7 @@ namespace XYB.Data.Migrations
                         name: "FK_Players_Teams_Id",
                         column: x => x.Id,
                         principalTable: "Teams",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
@@ -339,11 +335,6 @@ namespace XYB.Data.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Bets_MatchId",
-                table: "Bets",
-                column: "MatchId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_GameMatches_SecondTeamId",
                 table: "GameMatches",
                 column: "SecondTeamId");
@@ -354,20 +345,11 @@ namespace XYB.Data.Migrations
                 column: "PlayerId");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Bets_GameMatches_MatchId",
-                table: "Bets",
-                column: "MatchId",
-                principalTable: "GameMatches",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
                 name: "FK_GameMatches_Teams_Id",
                 table: "GameMatches",
                 column: "Id",
                 principalTable: "Teams",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.NoAction);
+                principalColumn: "Id");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_GameMatches_Teams_SecondTeamId",
@@ -415,13 +397,13 @@ namespace XYB.Data.Migrations
                 name: "Bets");
 
             migrationBuilder.DropTable(
+                name: "GameMatches");
+
+            migrationBuilder.DropTable(
                 name: "Payments");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
-
-            migrationBuilder.DropTable(
-                name: "GameMatches");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

@@ -6,6 +6,8 @@
 
         public AppUser User { get; set; }
 
+        public int UserId { get; set; }
+
         public double Sum { get; set; }
 
         public Currency Currency { get; set; }

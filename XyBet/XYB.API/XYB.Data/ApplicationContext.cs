@@ -44,42 +44,48 @@ namespace XYB.Data
                 .HasMany(ur => ur.Payments)
                 .WithOne(p => p.User)
                 .HasForeignKey(ur => ur.Id)
-                .IsRequired();
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder
                  .Entity<AppUser>()
                  .HasMany(ur => ur.Bets)
                  .WithOne(p => p.User)
                  .HasForeignKey(ur => ur.Id)
-                 .IsRequired();
+                 .IsRequired(false)
+                 .OnDelete(DeleteBehavior.NoAction);
 
             builder
                 .Entity<Game>()
                 .HasMany(g => g.Teams)
                 .WithOne(t => t.Game)
                 .HasForeignKey(t => t.Id)
-                .IsRequired();
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder
                 .Entity<Game>()
                 .HasMany(g => g.GameMatches)
                 .WithOne(t => t.Game)
                 .HasForeignKey(t => t.Id)
-                .IsRequired();
+                .IsRequired(false)
+                .OnDelete(DeleteBehavior.NoAction);
 
             builder
                  .Entity<Team>()
                  .HasMany(t => t.GameMatches)
                  .WithOne(gm => gm.FirstTeam)
                  .HasForeignKey(gm => gm.Id)
-                 .IsRequired();
+                 .IsRequired(false)
+                 .OnDelete(DeleteBehavior.NoAction);
 
             builder
                  .Entity<Team>()
                  .HasMany(t => t.Players)
                  .WithOne(p => p.CurrentTeam)
                  .HasForeignKey(gm => gm.Id)
-                 .IsRequired();
+                 .IsRequired(false)
+                 .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

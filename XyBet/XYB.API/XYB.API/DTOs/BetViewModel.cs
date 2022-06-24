@@ -9,10 +9,10 @@ namespace XYB.API.DTOs
         
         public AppUser User { get; set; }
 
+        public int UserId { get; set; }
+
         public double BetSum { get; set; }
 
         public BetResult Result { get; set; } = BetResult.InProgress;
-
-        public GameMatch Match { get; set; }
     }
 }

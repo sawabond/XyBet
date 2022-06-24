@@ -1,4 +1,5 @@
-﻿using XYB.Data.Enums;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using XYB.Data.Enums;
 
 namespace XYB.Data.Entities
 {
@@ -8,10 +9,10 @@ namespace XYB.Data.Entities
         
         public AppUser User { get; set; }
 
+        public int UserId { get; set; }
+
         public double BetSum { get; set; }
 
         public BetResult Result { get; set; } = BetResult.InProgress;
-
-        public GameMatch Match { get; set; }
     }
 }
