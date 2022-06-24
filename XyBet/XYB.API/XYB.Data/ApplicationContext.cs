@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using XYB.Data.Entities;
 
-namespace DAL
+namespace XYB.Data
 {
     public class ApplicationContext : IdentityDbContext
         <
