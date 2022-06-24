@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace XYB.Data.Abstractions
 {
-    public interface IDataRepository<T> where T : class
+    public interface IRepository<T> where T : class
     {
         Task<T> GetAsync(int id);
 

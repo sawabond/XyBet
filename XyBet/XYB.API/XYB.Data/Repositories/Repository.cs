@@ -11,7 +11,7 @@ using XYB.Data.Entities;
 
 namespace XYB.Data.Repositories
 {
-    public class DataRepository<T> : IDataRepository<T> where T : class
+    public class Repository<T> : IRepository<T> where T : class
     {
         protected readonly IdentityDbContext
         <
@@ -25,7 +25,7 @@ namespace XYB.Data.Repositories
         IdentityUserToken<int>
         > _context;
 
-        public DataRepository(
+        public Repository(
             IdentityDbContext
         <
         AppUser,
