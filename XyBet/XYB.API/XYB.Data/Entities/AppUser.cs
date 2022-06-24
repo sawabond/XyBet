@@ -20,5 +20,7 @@ namespace XYB.Data.Entities
         public ICollection<AppUserRole> UserRoles { get; set; }
 
         public ICollection<Bet> Bets { get; set; }
+
+        public ICollection<Payment> Payments { get; set; }
     }
 }
