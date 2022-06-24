@@ -37,6 +37,7 @@ namespace XYB.API
                     b => b.MigrationsAssembly("XYB.Data")
                     );
             });
+            services.AddAutoMapping();
             services.AddIdentityContext();
             services.AddAuthentication();
             services.AddControllers();
