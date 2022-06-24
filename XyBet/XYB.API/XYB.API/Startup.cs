@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using XYB.API.Extensions;
 using XYB.API.Options;
 using XYB.Data;
+using XYB.Data.Abstractions;
 
 namespace XYB.API
 {
@@ -37,6 +38,8 @@ namespace XYB.API
                     b => b.MigrationsAssembly("XYB.Data")
                     );
             });
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddAutoMapping();
             services.AddIdentityContext();
             services.AddAuthentication();
             services.AddControllers();

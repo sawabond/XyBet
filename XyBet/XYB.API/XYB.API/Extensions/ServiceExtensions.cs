@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
+using XYB.API.Mapping;
 using XYB.Data;
 using XYB.Data.Entities;
 
@@ -18,6 +20,18 @@ namespace XYB.API.Extensions
                 .AddSignInManager<SignInManager<AppUser>>()
                 .AddRoleValidator<RoleValidator<AppRole>>()
                 .AddEntityFrameworkStores<ApplicationContext>();
+
+            return services;
+        }
+
+        public static IServiceCollection AddAutoMapping(this IServiceCollection services)
+        {
+            var mapperConfig = new MapperConfiguration(mc =>
+            {
+                mc.AddProfile(new MappingProfile());
+            });
+
+            services.AddSingleton(mapperConfig.CreateMapper() as IMapper);
 
             return services;
         }

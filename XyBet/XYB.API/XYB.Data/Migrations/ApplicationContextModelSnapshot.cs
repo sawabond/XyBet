@@ -247,15 +247,13 @@ namespace XYB.Data.Migrations
                     b.Property<double>("BetSum")
                         .HasColumnType("float");
 
-                    b.Property<int?>("MatchId")
-                        .HasColumnType("int");
-
                     b.Property<int>("Result")
                         .HasColumnType("int");
 
-                    b.HasKey("Id");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("MatchId");
+                    b.HasKey("Id");
 
                     b.ToTable("Bets");
                 });
@@ -435,14 +433,7 @@ namespace XYB.Data.Migrations
                     b.HasOne("XYB.Data.Entities.AppUser", "User")
                         .WithMany("Bets")
                         .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("XYB.Data.Entities.GameMatch", "Match")
-                        .WithMany()
-                        .HasForeignKey("MatchId");
-
-                    b.Navigation("Match");
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("User");
                 });
@@ -452,14 +443,12 @@ namespace XYB.Data.Migrations
                     b.HasOne("XYB.Data.Entities.Game", "Game")
                         .WithMany("GameMatches")
                         .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("XYB.Data.Entities.Team", "FirstTeam")
                         .WithMany("GameMatches")
                         .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("XYB.Data.Entities.Team", "SecondTeam")
                         .WithMany()
@@ -477,8 +466,7 @@ namespace XYB.Data.Migrations
                     b.HasOne("XYB.Data.Entities.AppUser", "User")
                         .WithMany("Payments")
                         .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("User");
                 });
@@ -488,8 +476,7 @@ namespace XYB.Data.Migrations
                     b.HasOne("XYB.Data.Entities.Team", "CurrentTeam")
                         .WithMany("Players")
                         .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.Navigation("CurrentTeam");
                 });
@@ -499,8 +486,7 @@ namespace XYB.Data.Migrations
                     b.HasOne("XYB.Data.Entities.Game", "Game")
                         .WithMany("Teams")
                         .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("XYB.Data.Entities.Player", null)
                         .WithMany("PreviousTeams")
