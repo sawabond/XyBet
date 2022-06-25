@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using System.Threading.Tasks;
+using XYB.API.Services.Abstractions;
 using XYB.Data.Entities;
 
-namespace XYB.API.Services.Abstractions
+namespace XYB.API.Services
 {
     public class SignInManager : ISignInManager
     {
