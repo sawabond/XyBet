@@ -11,7 +11,5 @@ namespace XYB.Data.Entities
         public string Name { get; set; }
 
         public ICollection<Team> Teams { get; set; }
-
-        public ICollection<GameMatch> GameMatches { get; set; }
     }
 }
