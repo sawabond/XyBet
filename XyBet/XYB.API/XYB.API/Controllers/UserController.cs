@@ -35,7 +35,6 @@ namespace XYB.API.Controllers
         {
             var user = _mapper.Map<AppUser>(createModel);
 
-            _signInManager.
         }
     }
 }
