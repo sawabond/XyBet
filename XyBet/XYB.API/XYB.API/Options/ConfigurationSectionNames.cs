@@ -11,5 +11,7 @@ namespace XYB.API.Options
         {
             public const string SqlServer = "SqlServer";
         }
+
+        public const string TokenKey = "TokenKey";
     }
 }
