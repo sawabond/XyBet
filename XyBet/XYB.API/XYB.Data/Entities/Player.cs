@@ -12,14 +12,10 @@ namespace XYB.Data.Entities
 
         public string NickName { get; set; }
 
-        public Team CurrentTeam { get; set; }
-
         public string PhotoUrl { get; set; }
 
         public string Description { get; set; }
 
         public int Age { get; set; }
-
-        public ICollection<Team> PreviousTeams { get; set; }
     }
 }
