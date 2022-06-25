@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using XYB.Data.Abstractions;
 using XYB.Data.Repositories;
 
@@ -13,9 +12,12 @@ namespace XYB.Data
         {
             _context = context;
             BetRepository = new BetRepository(context);
+            UserRepository = new UserRepository(context);
         }
 
         public IBetRepository BetRepository { get; private set; }
+
+        public IUserRepository UserRepository { get; private set; }
 
         public async Task<bool> ConfirmAsync()
         {

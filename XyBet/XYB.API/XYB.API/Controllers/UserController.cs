@@ -33,8 +33,15 @@ namespace XYB.API.Controllers
         [HttpPost("register")]
         public async Task<ActionResult<UserViewModel>> CreateUser([FromBody] UserCreateModel createModel)
         {
-            var user = _mapper.Map<AppUser>(createModel);
+            var existingUser = await _uow.UserRepository.GetByUserNameAsync(createModel.UserName);
 
+            if (existingUser is not null)
+            {
+                return BadRequest($"User with {createModel.UserName} already exists");
+            }
+
+            var user = _mapper.Map<AppUser>(createModel);
+            return Ok();
         }
     }
 }
