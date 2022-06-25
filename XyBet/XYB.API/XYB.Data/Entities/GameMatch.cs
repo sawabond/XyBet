@@ -14,5 +14,7 @@ namespace XYB.Data.Entities
         public int FirstTeamId { get; set; }
 
         public int SecondTeamId { get; set; }
+
+        public bool IsFinished { get; set; }
     }
 }
