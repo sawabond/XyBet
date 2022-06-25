@@ -7,6 +7,8 @@ namespace XYB.Data.Abstractions
     {
         IBetRepository BetRepository { get; }
 
+        IUserRepository UserRepository { get; }
+
         Task<bool> ConfirmAsync();
     }
 }
