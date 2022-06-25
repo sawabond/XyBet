@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace XYB.API.Options
+﻿namespace XYB.API.Options
 {
     public static class ConfigurationSectionNames
     {
