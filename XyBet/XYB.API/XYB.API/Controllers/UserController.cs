@@ -45,7 +45,9 @@ namespace XYB.API.Controllers
                 return NotFound();
             }
 
-            return Ok(_mapper.Map<UserViewModel>(user));
+            var userViewModel = _mapper.Map<UserViewModel>(user);
+            userViewModel.Token = _tokenService.CreateToken(user, new List<string> { Roles.User });
+            return Ok(userViewModel);
         }
 
         [HttpPost("register")]
