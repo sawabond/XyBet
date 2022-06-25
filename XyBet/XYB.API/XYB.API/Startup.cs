@@ -34,8 +34,7 @@ namespace XYB.API
             services.AddDbContext<ApplicationContext>(opt =>
             {
                 opt.UseSqlServer(Configuration.GetConnectionString(
-                    ConfigurationSectionNames.ConnectionStrings.SqlServer),
-                    b => b.MigrationsAssembly("XYB.Data")
+                    ConfigurationSectionNames.ConnectionStrings.SqlServer)
                     );
             });
             services.AddScoped<IUnitOfWork, UnitOfWork>();

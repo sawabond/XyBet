@@ -13,7 +13,5 @@ namespace XYB.Data.Entities
         public ICollection<Player> Players { get; set; }
 
         public ICollection<GameMatch> GameMatches { get; set; }
-
-        public Game Game { get; set; }
     }
 }

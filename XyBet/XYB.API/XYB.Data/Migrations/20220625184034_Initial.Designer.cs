@@ -10,8 +10,8 @@ using XYB.Data;
 namespace XYB.Data.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20220624162208_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20220625184034_Initial")]
+    partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -244,10 +244,18 @@ namespace XYB.Data.Migrations
             modelBuilder.Entity("XYB.Data.Entities.Bet", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("AppUserId")
                         .HasColumnType("int");
 
                     b.Property<double>("BetSum")
                         .HasColumnType("float");
+
+                    b.Property<int?>("GameMatchId")
+                        .HasColumnType("int");
 
                     b.Property<int>("Result")
                         .HasColumnType("int");
@@ -256,6 +264,10 @@ namespace XYB.Data.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.HasIndex("GameMatchId");
 
                     b.ToTable("Bets");
                 });
@@ -281,9 +293,20 @@ namespace XYB.Data.Migrations
             modelBuilder.Entity("XYB.Data.Entities.GameMatch", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("FirstTeamId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("SecondTeamId")
+                    b.Property<bool>("IsFinished")
+                        .HasColumnType("bit");
+
+                    b.Property<int>("SecondTeamId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("TeamId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("Time")
@@ -291,7 +314,7 @@ namespace XYB.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("SecondTeamId");
+                    b.HasIndex("TeamId");
 
                     b.ToTable("GameMatches");
                 });
@@ -299,7 +322,9 @@ namespace XYB.Data.Migrations
             modelBuilder.Entity("XYB.Data.Entities.Payment", b =>
                 {
                     b.Property<int>("Id")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("Currency")
                         .HasColumnType("int");
@@ -313,7 +338,12 @@ namespace XYB.Data.Migrations
                     b.Property<double>("Sum")
                         .HasColumnType("float");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Payments");
                 });
@@ -321,7 +351,9 @@ namespace XYB.Data.Migrations
             modelBuilder.Entity("XYB.Data.Entities.Player", b =>
                 {
                     b.Property<int>("Id")
-                        .HasColumnType("int");
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("Age")
                         .HasColumnType("int");
@@ -341,7 +373,12 @@ namespace XYB.Data.Migrations
                     b.Property<string>("PhotoUrl")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("TeamId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("TeamId");
 
                     b.ToTable("Players");
                 });
@@ -349,6 +386,11 @@ namespace XYB.Data.Migrations
             modelBuilder.Entity("XYB.Data.Entities.Team", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int?>("GameId")
                         .HasColumnType("int");
 
                     b.Property<string>("LogoPhotoUrl")
@@ -357,12 +399,9 @@ namespace XYB.Data.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("PlayerId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("PlayerId");
+                    b.HasIndex("GameId");
 
                     b.ToTable("Teams");
                 });
@@ -432,69 +471,45 @@ namespace XYB.Data.Migrations
 
             modelBuilder.Entity("XYB.Data.Entities.Bet", b =>
                 {
-                    b.HasOne("XYB.Data.Entities.AppUser", "User")
+                    b.HasOne("XYB.Data.Entities.AppUser", null)
                         .WithMany("Bets")
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .HasForeignKey("AppUserId");
 
-                    b.Navigation("User");
+                    b.HasOne("XYB.Data.Entities.GameMatch", null)
+                        .WithMany("Bets")
+                        .HasForeignKey("GameMatchId");
                 });
 
             modelBuilder.Entity("XYB.Data.Entities.GameMatch", b =>
                 {
-                    b.HasOne("XYB.Data.Entities.Game", "Game")
+                    b.HasOne("XYB.Data.Entities.Team", null)
                         .WithMany("GameMatches")
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.HasOne("XYB.Data.Entities.Team", "FirstTeam")
-                        .WithMany("GameMatches")
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.HasOne("XYB.Data.Entities.Team", "SecondTeam")
-                        .WithMany()
-                        .HasForeignKey("SecondTeamId");
-
-                    b.Navigation("FirstTeam");
-
-                    b.Navigation("Game");
-
-                    b.Navigation("SecondTeam");
+                        .HasForeignKey("TeamId");
                 });
 
             modelBuilder.Entity("XYB.Data.Entities.Payment", b =>
                 {
                     b.HasOne("XYB.Data.Entities.AppUser", "User")
                         .WithMany("Payments")
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });
 
             modelBuilder.Entity("XYB.Data.Entities.Player", b =>
                 {
-                    b.HasOne("XYB.Data.Entities.Team", "CurrentTeam")
+                    b.HasOne("XYB.Data.Entities.Team", null)
                         .WithMany("Players")
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.Navigation("CurrentTeam");
+                        .HasForeignKey("TeamId");
                 });
 
             modelBuilder.Entity("XYB.Data.Entities.Team", b =>
                 {
-                    b.HasOne("XYB.Data.Entities.Game", "Game")
+                    b.HasOne("XYB.Data.Entities.Game", null)
                         .WithMany("Teams")
-                        .HasForeignKey("Id")
-                        .OnDelete(DeleteBehavior.NoAction);
-
-                    b.HasOne("XYB.Data.Entities.Player", null)
-                        .WithMany("PreviousTeams")
-                        .HasForeignKey("PlayerId");
-
-                    b.Navigation("Game");
+                        .HasForeignKey("GameId");
                 });
 
             modelBuilder.Entity("XYB.Data.Entities.AppRole", b =>
@@ -513,14 +528,12 @@ namespace XYB.Data.Migrations
 
             modelBuilder.Entity("XYB.Data.Entities.Game", b =>
                 {
-                    b.Navigation("GameMatches");
-
                     b.Navigation("Teams");
                 });
 
-            modelBuilder.Entity("XYB.Data.Entities.Player", b =>
+            modelBuilder.Entity("XYB.Data.Entities.GameMatch", b =>
                 {
-                    b.Navigation("PreviousTeams");
+                    b.Navigation("Bets");
                 });
 
             modelBuilder.Entity("XYB.Data.Entities.Team", b =>

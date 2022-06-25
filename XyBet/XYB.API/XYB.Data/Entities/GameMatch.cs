@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace XYB.Data.Entities
 {
@@ -8,10 +9,12 @@ namespace XYB.Data.Entities
 
         public DateTime Time { get; set; }
 
-        public Team FirstTeam { get; set; }
+        public ICollection<Bet> Bets { get; set; }
 
-        public Team SecondTeam { get; set; }
+        public int FirstTeamId { get; set; }
 
-        public Game Game { get; set; }
+        public int SecondTeamId { get; set; }
+
+        public bool IsFinished { get; set; }
     }
 }

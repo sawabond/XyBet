@@ -6,8 +6,6 @@ namespace XYB.Data.Entities
     public class Bet
     {
         public int Id { get; set; }
-        
-        public AppUser User { get; set; }
 
         public int UserId { get; set; }
 
