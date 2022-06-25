@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using XYB.API.DTOs.User;
 using XYB.API.Options;
@@ -68,7 +69,10 @@ namespace XYB.API.Controllers
 
             var addToRoleResult = await _userService.AddToRoleAsync(newUser, Roles.User);
 
-            return CreatedAtAction(nameof(GetUserById), _mapper.Map<UserViewModel>(newUser), newUser.Id);
+            var userViewModel = _mapper.Map<UserViewModel>(newUser);
+            userViewModel.Token = _tokenService.CreateToken(newUser, new List<string> { Roles.User });
+
+            return CreatedAtAction(nameof(GetUserById), userViewModel, newUser.Id);
         }
     }
 }

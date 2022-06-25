@@ -27,10 +27,10 @@ namespace XYB.Data.Repositories
 
         }
 
-        public async Task<AppUser> GetByUserNameAsync(string name)
+        public async Task<AppUser> GetByUserNameAsync(string userName)
         {
             return await _context.Set<AppUser>()
-                .Where(u => u.NormalizedUserName.Equals(name, System.StringComparison.InvariantCultureIgnoreCase))
+                .Where(u => u.NormalizedUserName == userName.ToUpper())
                 .FirstOrDefaultAsync();
         }
     }
