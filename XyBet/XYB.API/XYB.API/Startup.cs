@@ -36,6 +36,7 @@ namespace XYB.API
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddScoped<ISignInManager, SignInManager>();
+            services.AddScoped<IUserService, UserService>();
 
             services.AddAutoMapping();
             services.AddIdentityContext();
