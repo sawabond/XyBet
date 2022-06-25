@@ -14,6 +14,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using XYB.API.Extensions;
 using XYB.API.Options;
+using XYB.API.Services;
+using XYB.API.Services.Abstractions;
 using XYB.Data;
 using XYB.Data.Abstractions;
 
@@ -37,6 +39,7 @@ namespace XYB.API
                     ConfigurationSectionNames.ConnectionStrings.SqlServer)
                     );
             });
+            services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddAutoMapping();
             services.AddIdentityContext();
