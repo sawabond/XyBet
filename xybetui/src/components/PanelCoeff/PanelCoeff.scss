@@ -1,0 +1,19 @@
+.panelcoeff {
+  background: rgba(196, 196, 196, 1);
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  &__list > ul {
+    display: flex;
+    justify-content: space-between;
+  }
+  &__list {
+    width: 60%;
+  }
+  &__title-tournament {
+    width: 20%;
+    display: flex;
+    align-items: center;
+    gap: 2%;
+  }
+}
