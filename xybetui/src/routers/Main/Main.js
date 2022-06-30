@@ -1,4 +1,3 @@
-import React from 'react';
 import Panel from '../../components/Panel/Panel';
 import Title from '../../components/Title/Title';
 
