@@ -1,9 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using XYB.Data.Enums;
+﻿using XYB.Data.Enums;
 
-namespace XYB.Data.Entities
+namespace XYB.API.DTOs.Bet
 {
-    public class Bet
+    public class BetViewModel
     {
         public int Id { get; set; }
 

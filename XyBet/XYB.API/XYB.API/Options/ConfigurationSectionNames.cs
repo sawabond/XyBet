@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace XYB.API.Options
+﻿namespace XYB.API.Options
 {
     public static class ConfigurationSectionNames
     {
@@ -11,5 +6,7 @@ namespace XYB.API.Options
         {
             public const string SqlServer = "SqlServer";
         }
+
+        public const string TokenKey = "TokenKey";
     }
 }

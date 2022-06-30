@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace XYB.Data.Migrations
 {
-    public partial class InitialMigration : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -190,7 +190,9 @@ namespace XYB.Data.Migrations
                 name: "Payments",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: false),
                     Sum = table.Column<double>(type: "float", nullable: false),
                     Currency = table.Column<int>(type: "int", nullable: false),
                     InternalCurrencyEquivalent = table.Column<double>(type: "float", nullable: false),
@@ -200,48 +202,9 @@ namespace XYB.Data.Migrations
                 {
                     table.PrimaryKey("PK_Payments", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Payments_AspNetUsers_Id",
-                        column: x => x.Id,
+                        name: "FK_Payments_AspNetUsers_UserId",
+                        column: x => x.UserId,
                         principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Bets",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false),
-                    BetSum = table.Column<double>(type: "float", nullable: false),
-                    Result = table.Column<int>(type: "int", nullable: false),
-                    MatchId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Bets", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Bets_AspNetUsers_Id",
-                        column: x => x.Id,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "GameMatches",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false),
-                    Time = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    SecondTeamId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_GameMatches", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_GameMatches_Games_Id",
-                        column: x => x.Id,
-                        principalTable: "Games",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -250,43 +213,98 @@ namespace XYB.Data.Migrations
                 name: "Teams",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     LogoPhotoUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PlayerId = table.Column<int>(type: "int", nullable: true)
+                    GameId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Teams", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Teams_Games_Id",
-                        column: x => x.Id,
+                        name: "FK_Teams_Games_GameId",
+                        column: x => x.GameId,
                         principalTable: "Games",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "GameMatches",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Time = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    FirstTeamId = table.Column<int>(type: "int", nullable: false),
+                    SecondTeamId = table.Column<int>(type: "int", nullable: false),
+                    IsFinished = table.Column<bool>(type: "bit", nullable: false),
+                    TeamId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GameMatches", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_GameMatches_Teams_TeamId",
+                        column: x => x.TeamId,
+                        principalTable: "Teams",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
                 name: "Players",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     NickName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PhotoUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Age = table.Column<int>(type: "int", nullable: false)
+                    Age = table.Column<int>(type: "int", nullable: false),
+                    TeamId = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Players", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Players_Teams_Id",
-                        column: x => x.Id,
+                        name: "FK_Players_Teams_TeamId",
+                        column: x => x.TeamId,
                         principalTable: "Teams",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Bets",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    BetSum = table.Column<double>(type: "float", nullable: false),
+                    Result = table.Column<int>(type: "int", nullable: false),
+                    AppUserId = table.Column<int>(type: "int", nullable: true),
+                    GameMatchId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Bets", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Bets_AspNetUsers_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Bets_GameMatches_GameMatchId",
+                        column: x => x.GameMatchId,
+                        principalTable: "GameMatches",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateIndex(
@@ -339,63 +357,38 @@ namespace XYB.Data.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Bets_MatchId",
+                name: "IX_Bets_AppUserId",
                 table: "Bets",
-                column: "MatchId");
+                column: "AppUserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_GameMatches_SecondTeamId",
-                table: "GameMatches",
-                column: "SecondTeamId");
+                name: "IX_Bets_GameMatchId",
+                table: "Bets",
+                column: "GameMatchId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Teams_PlayerId",
-                table: "Teams",
-                column: "PlayerId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Bets_GameMatches_MatchId",
-                table: "Bets",
-                column: "MatchId",
-                principalTable: "GameMatches",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_GameMatches_Teams_Id",
+                name: "IX_GameMatches_TeamId",
                 table: "GameMatches",
-                column: "Id",
-                principalTable: "Teams",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.NoAction);
+                column: "TeamId");
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_GameMatches_Teams_SecondTeamId",
-                table: "GameMatches",
-                column: "SecondTeamId",
-                principalTable: "Teams",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
+            migrationBuilder.CreateIndex(
+                name: "IX_Payments_UserId",
+                table: "Payments",
+                column: "UserId");
 
-            migrationBuilder.AddForeignKey(
-                name: "FK_Teams_Players_PlayerId",
+            migrationBuilder.CreateIndex(
+                name: "IX_Players_TeamId",
+                table: "Players",
+                column: "TeamId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Teams_GameId",
                 table: "Teams",
-                column: "PlayerId",
-                principalTable: "Players",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
+                column: "GameId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_Teams_Games_Id",
-                table: "Teams");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_Players_Teams_Id",
-                table: "Players");
-
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 
@@ -418,6 +411,9 @@ namespace XYB.Data.Migrations
                 name: "Payments");
 
             migrationBuilder.DropTable(
+                name: "Players");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
@@ -427,13 +423,10 @@ namespace XYB.Data.Migrations
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Games");
-
-            migrationBuilder.DropTable(
                 name: "Teams");
 
             migrationBuilder.DropTable(
-                name: "Players");
+                name: "Games");
         }
     }
 }

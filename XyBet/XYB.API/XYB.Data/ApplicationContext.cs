@@ -34,52 +34,5 @@ namespace XYB.Data
         public DbSet<GameMatch> GameMatches { get; set; }
 
         public DbSet<Bet> Bets { get; set; }
-
-        protected override void OnModelCreating(ModelBuilder builder)
-        {
-            base.OnModelCreating(builder);
-
-            builder
-                .Entity<AppUser>()
-                .HasMany(ur => ur.Payments)
-                .WithOne(p => p.User)
-                .HasForeignKey(ur => ur.Id)
-                .IsRequired();
-
-            builder
-                 .Entity<AppUser>()
-                 .HasMany(ur => ur.Bets)
-                 .WithOne(p => p.User)
-                 .HasForeignKey(ur => ur.Id)
-                 .IsRequired();
-
-            builder
-                .Entity<Game>()
-                .HasMany(g => g.Teams)
-                .WithOne(t => t.Game)
-                .HasForeignKey(t => t.Id)
-                .IsRequired();
-
-            builder
-                .Entity<Game>()
-                .HasMany(g => g.GameMatches)
-                .WithOne(t => t.Game)
-                .HasForeignKey(t => t.Id)
-                .IsRequired();
-
-            builder
-                 .Entity<Team>()
-                 .HasMany(t => t.GameMatches)
-                 .WithOne(gm => gm.FirstTeam)
-                 .HasForeignKey(gm => gm.Id)
-                 .IsRequired();
-
-            builder
-                 .Entity<Team>()
-                 .HasMany(t => t.Players)
-                 .WithOne(p => p.CurrentTeam)
-                 .HasForeignKey(gm => gm.Id)
-                 .IsRequired();
-        }
     }
 }
