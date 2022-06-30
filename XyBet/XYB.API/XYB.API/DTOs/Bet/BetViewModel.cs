@@ -1,13 +1,10 @@
-﻿using XYB.Data.Entities;
-using XYB.Data.Enums;
+﻿using XYB.Data.Enums;
 
-namespace XYB.API.DTOs
+namespace XYB.API.DTOs.Bet
 {
     public class BetViewModel
     {
         public int Id { get; set; }
-        
-        public AppUser User { get; set; }
 
         public int UserId { get; set; }
 
