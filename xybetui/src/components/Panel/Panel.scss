@@ -1,9 +1,81 @@
 .panel {
   background-color: #85776a;
   display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  &__present {
+    display: flex;
+    width: 70%;
+    text-align: center;
+    > div {
+      border-right: 1px solid #5e534a;
+    }
+  }
+
   &__rank {
+    padding: 0 1% 0 1%;
     ul > li > p {
       color: white;
+      font-weight: 600;
+    }
+  }
+
+  &__bet {
+    display: flex;
+    padding: 0 2% 0 2%;
+    align-items: center;
+    gap: 10%;
+
+    > p {
+      font-weight: bold;
+    }
+    > p:nth-child(1) {
+      background-color: #c4c4c4;
+      border-radius: 45%;
+      padding: 4%;
+    }
+    > p:nth-child(2) {
+      color: white;
+    }
+  }
+  &__info_favteam {
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 5%;
+    width: 50%;
+    > p {
+      color: white;
+    }
+  }
+  &__live,
+  &__refresh {
+    display: flex;
+    > button {
+      border: none;
+      background-color: inherit;
+      > img {
+        width: 80%;
+      }
+    }
+  }
+  &__refresh {
+    justify-content: center;
+    width: 7%;
+  }
+  &__functional {
+    display: flex;
+    align-items: center;
+    gap: 5%;
+    width: 15%;
+  }
+  &__auth {
+    > button {
+      background-color: inherit;
+      color: white;
+      border: none;
+      font-size: 17px;
     }
   }
 }
