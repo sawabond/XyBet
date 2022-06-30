@@ -1,0 +1,9 @@
+.panel {
+  background-color: #85776a;
+  display: flex;
+  &__rank {
+    ul > li > p {
+      color: white;
+    }
+  }
+}
