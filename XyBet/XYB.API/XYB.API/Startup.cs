@@ -1,16 +1,16 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using XYB.API.Extensions;
+using XYB.API.Options;
+using XYB.API.Services;
+using XYB.API.Services.Abstractions;
+using XYB.Data;
+using XYB.Data.Abstractions;
 
 namespace XYB.API
 {
@@ -26,7 +26,29 @@ namespace XYB.API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<ApplicationContext>(opt =>
+            {
+                opt.UseSqlServer(Configuration.GetConnectionString(
+                    ConfigurationSectionNames.ConnectionStrings.SqlServer)
+                    );
+            });
 
+            services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<ISignInManager, SignInManager>();
+            services.AddScoped<IUserService, UserService>();
+
+            services.AddCors(o =>
+            {
+                o.AddPolicy(name: "Default", p =>
+                {
+                    p.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
+                });
+            });
+
+            services.AddAutoMapping();
+            services.AddIdentityContext();
+            services.AddAuthentication();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -47,6 +69,8 @@ namespace XYB.API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors("Default");
 
             app.UseAuthorization();
 
