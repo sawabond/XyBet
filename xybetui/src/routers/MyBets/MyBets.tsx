@@ -9,10 +9,12 @@ export default function MyBets() {
   const [bets, setBets] = useState<Bet[]>([]);
 
   function getBets() {
-    axios.get<Bet[]>("https://localhost:5001/api/bet/dummy").then((response) => {
-      console.log(response.data);
-      setBets(response.data);
-    });
+    axios
+      .get<Bet[]>("https://localhost:5001/api/bet/dummy")
+      .then((response) => {
+        console.log(response.data);
+        setBets(response.data);
+      });
   }
 
   useEffect(() => {
@@ -23,7 +25,11 @@ export default function MyBets() {
     <div className="wrapper">
       <Title />
       <Panel />
-      {bets.map(bet => <BetCard bet={bet}/>)}
+      <div style={{ display: "flex", gap: "5%" }}>
+        {bets.map((bet) => (
+          <BetCard bet={bet} />
+        ))}
+      </div>
     </div>
   );
 }

@@ -4,5 +4,5 @@ export default interface Bet {
     id: number
     userId: number
     betSum: number
-    betResult: BetResult
+    result: BetResult
 }
