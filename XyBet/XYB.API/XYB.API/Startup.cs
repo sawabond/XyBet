@@ -38,6 +38,14 @@ namespace XYB.API
             services.AddScoped<ISignInManager, SignInManager>();
             services.AddScoped<IUserService, UserService>();
 
+            services.AddCors(o =>
+            {
+                o.AddPolicy(name: "Default", p =>
+                {
+                    p.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin();
+                });
+            });
+
             services.AddAutoMapping();
             services.AddIdentityContext();
             services.AddAuthentication();
@@ -61,6 +69,8 @@ namespace XYB.API
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors("Default");
 
             app.UseAuthorization();
 

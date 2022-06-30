@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using XYB.API.DTOs;
+using XYB.API.DTOs.Bet;
 using XYB.API.DTOs.User;
 using XYB.Data.Entities;
 
